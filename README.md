@@ -2,14 +2,14 @@
 
 This is a README for the Fake Reviews Detection project by Group 22.
 
-Team Members:
+## Team Members:
 * Manthan Sanghavi
 * Supriyaa Damodaraswamy
 * Shreekrishna Prasad Sethuraman
 * Waris Phupaibhul
 * Vishnunarayanan Ramasubramanian
 
-Notes:
+## Notes:
 * The shell script 'Group22_Fake_Reviews.sh' invokes the core Machine Learning model and generates results.
 * Various pre-processing steps have been applied on the dataset given. The code and results for pre-processing are also included in this repository.
 * The learning models are located in "Fake_Reviews_Detection/Machine_Learning_Models/Code". The name of the python script is "learning_models.py".
@@ -21,10 +21,10 @@ Notes:
 * The two ensemble methods explored here in multiple layers are "simple majority" and "average scored probability". 
 * The datasets used for learning, after pre-processing are present in "Fake_Reviews_Detection/Machine_Learning_Models/Data". It also contains ten train-test splits of the data used. All of these seeds are run through the program.
 
-Instructions:
+## Instructions:
 > To run the project, simply execute the "Group22_Fake_Reviews.sh" script from the command line.
 
-System Requirements:
+## System Requirements:
 * Ubuntu 16.04 or any Linux distribution.
 * Python 3.5.2.
 * All the required packages are installed as per "requirements.txt" with the correct version using pip3.
