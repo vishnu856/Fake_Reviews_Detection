@@ -9,7 +9,7 @@ import math
 import time
 from sklearn.ensemble import BaggingClassifier, AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
@@ -169,23 +169,23 @@ class Learning_Models():
 
 		train_predictions_DT = self.bagged_DT.predict(train_data_without_target)
 		sm[0] = accuracy_score(tar_data, train_predictions_DT)
-		prob[0] = accuracy_score(tar_data, train_predictions_DT)
+		#prob[0] = accuracy_score(tar_data, train_predictions_DT)
 
 		train_predictions_NB = self.bagged_NB.predict(train_data_without_target)
 		sm[1] = accuracy_score(tar_data, train_predictions_NB)
-		prob[1] = accuracy_score(tar_data, train_predictions_NB)
+		#prob[1] = accuracy_score(tar_data, train_predictions_NB)
 
 		train_predictions_SVM = self.bagged_SVM.predict(train_data_without_target)
 		sm[2] = accuracy_score(tar_data, train_predictions_SVM)
-		prob[2] = accuracy_score(tar_data, train_predictions_SVM)
+		#prob[2] = accuracy_score(tar_data, train_predictions_SVM)
 
 		train_predictions_NN = self.bagged_NN.predict(train_data_without_target)
 		sm[3] = accuracy_score(tar_data, train_predictions_NN)
-		prob[3] = accuracy_score(tar_data, train_predictions_NN)
+		#prob[3] = accuracy_score(tar_data, train_predictions_NN)
 
 		train_predictions_LR = self.bagged_LR.predict(train_data_without_target)
 		sm[4] = accuracy_score(tar_data, train_predictions_LR)
-		prob[4] = accuracy_score(tar_data, train_predictions_LR)
+		#prob[4] = accuracy_score(tar_data, train_predictions_LR)
 
 		all_pred = []
 
@@ -342,13 +342,13 @@ class Solution():
 				best_model_sm = model_sm
 				best_acc_heuristic_val_sm = current_heuristic_val
 
-		print("Best Model based on simple Majority: "+str(best_model_sm)+" Train Acc: "+str(ensemble_sm_accuracy[best_model_sm])+" Cross Val Accuracy: "+str(ensemble_crossval_sm_acc[best_model_sm]))
+		#print("Best Model based on simple Majority: "+str(best_model_sm)+" Train Acc: "+str(ensemble_sm_accuracy[best_model_sm])+" Cross Val Accuracy: "+str(ensemble_crossval_sm_acc[best_model_sm]))
 
-		'''
+		
 		print("Average Probability Accuracies:")
 		for model_sm in ensemble_prob_accuracy.keys():
 			print("Model: "+str(model_sm)+" Train Accuracy: "+str(ensemble_prob_accuracy[model_sm])+" CrossVal Accuracy: "+str(ensemble_crossval_prob_acc[model_sm]))
-		'''
+		
 
 		best_model_prob = []
 		best_acc_heuristic_val_prob = -1 #Least Accuracy Value		
@@ -359,7 +359,7 @@ class Solution():
 				best_model_prob = model_prob
 				best_acc_heuristic_val_prob = current_heuristic_val
 
-		print("Best Model based on Average Probability: "+str(best_model_prob)+" Train Acc: "+str(ensemble_prob_accuracy[best_model_prob])+" Cross Val Accuracy: "+str(ensemble_crossval_prob_acc[best_model_prob]))
+		#print("Best Model based on Average Probability: "+str(best_model_prob)+" Train Acc: "+str(ensemble_prob_accuracy[best_model_prob])+" Cross Val Accuracy: "+str(ensemble_crossval_prob_acc[best_model_prob]))
 
 		best_model_overall = []
 		sm_or_prob = 0
@@ -384,12 +384,27 @@ class Solution():
 		
 		best_test_accuracy = ensemble_test_sm_acc[best_model_overall] if sm_or_prob == 1 else ensemble_test_prob_acc[best_model_overall]
 
+		'''
+
+		print("Simple Majority Test Accuracies:")
+		for model_sm in ensemble_sm_accuracy.keys():
+			print("Model: "+str(model_sm)+" Test Accuracy: "+str(ensemble_test_sm_acc[model_sm]))
+
+
+		print("Average Probability Test Accuracies:")
+		for model_sm in ensemble_prob_accuracy.keys():
+			print("Model: "+str(model_sm)+" Test Accuracy: "+str(ensemble_test_prob_acc[model_sm]))
+
+		print("Maximum Test Simple Majority Accuracy:" + str(max(ensemble_test_sm_acc.values())) + " Prob Acc: "+str(max(ensemble_test_prob_acc.values())))
+
+		'''
+
 		if isinstance(best_model_overall, int) == False:
 			best_method = "Simple Majority " if sm_or_prob == 1 else "Scored Probability "
 		else:
 			best_method = "Single Model "	
 
-		#print("Best Ensemble Method: "+str(best_method)+"Best Model Overall:"+str(best_model_overall)+" Train Accuracy: "+str(best_train_accuracy)+" Cross Validation Accuracy: "+str(best_cv_accuracy)+" Test Accuracy: "+str(best_test_accuracy))
+		print("Best Ensemble Method: "+str(best_method)+"Best Model Overall:"+str(best_model_overall)+" Train Accuracy: "+str(best_train_accuracy)+" Cross Validation Accuracy: "+str(best_cv_accuracy)+" Test Accuracy: "+str(best_test_accuracy))
 
 		return best_method, self.process_best_model_as_string(best_model_overall), best_train_accuracy, best_cv_accuracy, best_test_accuracy
 
@@ -413,16 +428,20 @@ class Solution():
 def init_flow(train_folder, test_folder):
 	result_list = []
 	result_columns = ["Best Ensemble Method", "Best Machine Learning Method", "Training Accuracy", "Cross Validated Accuracy", "Test Set Accuracy"]
-	for seed_no in range(1, 11):
+	avg_test_acc = 0
+	for seed_no in range(2, 3):
 		train_data_path = str(train_folder) + "Train" + str(seed_no) + ".csv"
 		test_data_path = str(test_folder) + "Test" + str(seed_no) + ".csv"
 	
 		print("Running Seed Number: "+str(seed_no))
 		best_method, best_model, train_acc, cv_acc, test_acc = Solution().fake_reviews_detection(train_data_path, test_data_path)
 		result_list.append([best_method, best_model, train_acc, cv_acc, test_acc])
+		avg_test_acc += test_acc
 		print("---------------------------------------")
 
-	return pd.DataFrame(result_list, columns = result_columns)
+	avg_test_acc = avg_test_acc / 10
+
+	return pd.DataFrame(result_list, columns = result_columns), avg_test_acc
 
 def run_liwc():
 
@@ -433,7 +452,9 @@ def run_liwc():
 	train_folder = "../Data/LIWC/Train/"
 	test_folder = "../Data/LIWC/Test/"
 
-	result_df_liwc = init_flow(train_folder, test_folder)
+	result_df_liwc, avg_test_acc = init_flow(train_folder, test_folder)
+
+	print("Average Test LIWC-------------------------" + str(avg_test_acc))
 
 	result_df_liwc.to_csv(result_folder + "LIWC_Results.csv", index = False)
 
@@ -446,7 +467,9 @@ def run_pos():
 	train_folder = "../Data/POS/Train/"
 	test_folder = "../Data/POS/Test/"
 
-	result_df_pos = init_flow(train_folder, test_folder)
+	result_df_pos, avg_test_acc = init_flow(train_folder, test_folder)
+
+	print("Average Test POS-------------------------" + str(avg_test_acc))
 
 	result_df_pos.to_csv(result_folder + "POS_Results.csv", index = False)
 
