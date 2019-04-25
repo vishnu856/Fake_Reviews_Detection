@@ -1,3 +1,11 @@
 Best Ensemble Method,Best Machine Learning Method,Training Accuracy,Cross Validated Accuracy,Test Set Accuracy
-Scored Probability ,"Decision Tree,Logistic Regression",0.7509765625,0.73828125,0.7625
-Scored Probability ,"Naive Bayes,Neural Network",0.8046875,0.76953125,0.803125
+Scored Probability ,"Decision Tree,Logistic Regression",0.736328125,0.7578125,0.734375
+Scored Probability ,"Decision Tree,Logistic Regression",0.7470703125,0.71875,0.73125
+Single Model ,Naive Bayes,0.7548828125,0.73828125,0.74375
+Simple Majority ,"Decision Tree,Logistic Regression",0.59765625,0.57421875,0.55625
+Scored Probability ,"Decision Tree,Naive Bayes,Support Vector Machines,Logistic Regression",0.724609375,0.7265625,0.7125
+Simple Majority ,"Support Vector Machines,Neural Network,Logistic Regression",0.5478515625,0.5546875,0.50625
+Simple Majority ,"Decision Tree,Naive Bayes,Neural Network",0.80078125,0.80859375,0.809375
+Scored Probability ,"Support Vector Machines,Neural Network,Logistic Regression",0.6767578125,0.65234375,0.634375
+Simple Majority ,"Decision Tree,Naive Bayes,Logistic Regression",0.81640625,0.77734375,0.790625
+Scored Probability ,"Decision Tree,Neural Network",0.611328125,0.61328125,0.584375

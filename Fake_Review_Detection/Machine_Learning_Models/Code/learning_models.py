@@ -1,3 +1,4 @@
+#!/usr/bin/python3.5.2
 import sklearn
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -412,7 +413,7 @@ class Solution():
 def init_flow(train_folder, test_folder):
 	result_list = []
 	result_columns = ["Best Ensemble Method", "Best Machine Learning Method", "Training Accuracy", "Cross Validated Accuracy", "Test Set Accuracy"]
-	for seed_no in range(1, 3):
+	for seed_no in range(1, 11):
 		train_data_path = str(train_folder) + "Train" + str(seed_no) + ".csv"
 		test_data_path = str(test_folder) + "Test" + str(seed_no) + ".csv"
 	
