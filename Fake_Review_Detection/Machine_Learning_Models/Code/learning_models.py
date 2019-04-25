@@ -442,8 +442,8 @@ def run_pos():
 
 	result_folder = "../Results/"
 
-	train_folder = "../Data/POS_Updated/Train/"
-	test_folder = "../Data/POS_Updated/Test/"
+	train_folder = "../Data/POS/Train/"
+	test_folder = "../Data/POS/Test/"
 
 	result_df_pos = init_flow(train_folder, test_folder)
 
